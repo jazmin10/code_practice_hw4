@@ -111,7 +111,11 @@ $(document).ready(function() {
 
 		// Determine list of enemies
 
-		// display enemies
+		characters.splice(index, 1);
+		enemies = characters;
+
+		// display the rest of characters as enemies
+		displayEnemies(enemies);
 		
 	}
 
@@ -128,6 +132,27 @@ $(document).ready(function() {
 		// Add the character's div to the your-character-section
 		$("#your-character-section").append(yourCharacterDiv);
 
+	}
+
+	// Display the list of available enemies
+	function displayEnemies(listEnemies) {
+
+		// Loop through the list of available enemies...
+		listEnemies.forEach(function(enemy) {
+
+			// Create a div
+			var enemiesDiv = $("<div>");
+
+			enemiesDiv.addClass("enemies");
+
+			// Append enemie's name, img, and hp to the enemies's div
+			enemiesDiv.append("<p>" + enemy.name + "</p>");
+			enemiesDiv.append("<img src=" + enemy.src + " alt='character'>");
+			enemiesDiv.append("<p>" + enemy.hp + "<p>");
+
+			// Add the enemie's div to the enemies-available-section
+			$("#enemies-available-section").append(enemiesDiv);
+		});
 	}
 
 // ======== MAIN PROCESSES ========
