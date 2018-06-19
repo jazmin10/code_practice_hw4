@@ -3,6 +3,7 @@ $(document).ready(function() {
 // ======== GLOBAL VARIABLES ========
 	var characters = [];
 	var enemies = [];
+	var yourCharacter = {};
 	var currentEnemy = {};
 	var yourCharacterHp = 0;
 	var yourCharacterAttack = 0;
@@ -70,6 +71,7 @@ $(document).ready(function() {
 
 		// Reset variables
 		enemies = [];
+		yourCharacter = {};
 		currentEnemy = {};
 		yourCharacterHp = 0;
 		yourCharacterAttack = 0;
@@ -80,12 +82,58 @@ $(document).ready(function() {
 		enemyPicked = false;
 	}
 
+	// When you pick a character from the list of characters...
+	function pickYourCharacter() {
+
+		// Grab the value of the character div
+		var index = $(this).attr("value");
+		
+		// Do nothing if the user has already picked a character
+		if (yourCharacterPicked) {
+			return;
+		}
+
+		// If you haven't picked a character...
+
+		// Then grab the character's info
+		yourCharacter = characters[index];
+		yourCharacterHp = yourCharacter.hp;
+		yourCharacterAttack = 8;
+
+		// Now that a character was chosen, we can set yourCharacterPicked to true
+		yourCharacterPicked = true;
+
+		// Display the chosen character
+		displayYourCharacter(yourCharacter);
+
+		// Empty out list of characters
+		$("#list-of-characters").empty();
+
+		// Determine list of enemies
+
+		// display enemies
+		
+	}
+
+	function displayYourCharacter(characterChosen) {
+		var yourCharacterDiv = $("<div>");
+
+		yourCharacterDiv.addClass("characters");
+
+		// Append character's name, img, and hp to the character's div
+		yourCharacterDiv.append("<p>" + characterChosen.name + "</p>");
+		yourCharacterDiv.append("<img src=" + characterChosen.src + " alt='character'>");
+		yourCharacterDiv.append("<p>" + yourCharacterHp + "</p>");
+
+		// Add the character's div to the your-character-section
+		$("#your-character-section").append(yourCharacterDiv);
+
+	}
+
 // ======== MAIN PROCESSES ========
 
 	initializeGame();
 
-	$(".characters").click(function() {
-		console.log("hello");
-	});
+	$(".characters").click(pickYourCharacter);
 
 });
