@@ -11,7 +11,7 @@ $(document).ready(function() {
 	var defenderAttack = 0;
 	var attackAbility = false;
 	var yourCharacterPicked = false;
-	var enemyPicked = false;
+	var defenderPicked = false;
 
 // ======== FUNCTIONS ========
 
@@ -137,6 +137,8 @@ $(document).ready(function() {
 	// Display the list of available enemies
 	function displayEnemies(listEnemies) {
 
+		var enemiesCounter = 0;
+
 		// Loop through the list of available enemies...
 		listEnemies.forEach(function(enemy) {
 
@@ -144,6 +146,7 @@ $(document).ready(function() {
 			var enemiesDiv = $("<div>");
 
 			enemiesDiv.addClass("enemies");
+			enemiesDiv.attr("value", enemiesCounter);
 
 			// Append enemie's name, img, and hp to the enemies's div
 			enemiesDiv.append("<p>" + enemy.name + "</p>");
@@ -152,13 +155,68 @@ $(document).ready(function() {
 
 			// Add the enemie's div to the enemies-available-section
 			$("#enemies-available-section").append(enemiesDiv);
+
+			enemiesCounter++;
 		});
+	}
+
+	function pickDefender() {
+
+		// If a defender has already been picked, then do nothing
+		if (defenderPicked) {
+			return;
+		}
+
+		// Grab info of the defender
+		var enemyIndex = $(this).attr("value");
+
+		enemy = enemies[enemyIndex];
+		defenderHp = enemy.hp;
+		defenderAttack = enemy.attackPower;
+
+		defenderPicked = true;
+
+		// Display the defender
+		displayDefender(enemy);
+
+		// Remove defender from list of available enemies
+		enemies.splice(enemyIndex, 1);
+
+		// Display new list of available enemies
+		$("#enemies-available-section").empty();
+		displayEnemies(enemies);
+	}
+
+	// Display the defender picked
+	function displayDefender(defender) {
+
+		// Create a div
+		var enemyDiv = $("<div>");
+
+		// Add defender class
+		enemyDiv.addClass("defender");
+
+		// Append defender's name, img, and hp
+		enemyDiv.append("<p>" + defender.name + "</p>");
+		enemyDiv.append("<img src=" + defender.src + " alt='character'>");
+		enemyDiv.append("<p>" + defenderHp + "</p>");
+
+		// Add defender to the defender-section
+		$("#defender-section").append(enemyDiv);
+
 	}
 
 // ======== MAIN PROCESSES ========
 
+	// Initialize game
 	initializeGame();
 
+	// When a character is picked...
 	$(".characters").click(pickYourCharacter);
 
+	// When a defender is chosen...
+	$("#enemies-available-section").on("click", ".enemies", pickDefender);
+
+
 });
+
