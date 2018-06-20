@@ -168,6 +168,8 @@ $(document).ready(function() {
 			return;
 		}
 
+		$("#game-results").empty();
+
 		// Grab info of the defender
 		var enemyIndex = $(this).attr("value");
 
@@ -239,21 +241,23 @@ $(document).ready(function() {
 			
 			if (yourCharacterHp < defenderHp) {
 				attackAbility = true;
-				console.log("game over");
-				displayGameOver();
+				displayGameLost();
 			}
 
 			else {
-				console.log("you won this round!");
+				defenderPicked = false;
+				console.log("I am here, you won this round!");
+				roundWon();
 			}
 		}
 		else if (yourCharacterHp <= 0) {
 			attackAbility = true;
-			console.log("game over");
-			displayGameOver();
+			displayGameLost();
 		}
 		else if (defenderHp <= 0) {
+			defenderPicked = false;
 			console.log("you won this round!");
+			roundWon();
 		}
 		else {
 
@@ -267,7 +271,8 @@ $(document).ready(function() {
 		}
 	}
 
-	function displayGameOver() {
+	// If the user loses...
+	function displayGameLost() {
 
 			// Update yourCharacter's and defender's hp
 			displayYourCharacter(yourCharacter);
@@ -275,8 +280,18 @@ $(document).ready(function() {
 
 			// Display Game Over to user
 			$("#game-results").append("<p>You have been defeated...GAME OVER!!!");
-
 			$("#game-results").append("<button id='restart'>Restart</button>");
+	}
+
+	// If an user won a round...
+	function roundWon() {
+
+		// Empty the defender section to make way for the new defender
+		$("#defender-section").empty();
+
+		// Let the user know they won this round
+		$("#game-results").append("<p>You have defeated " + currentEnemy.name + 
+			" , you can choose to fight another enemy");
 	}
 
 // ======== MAIN PROCESSES ========
