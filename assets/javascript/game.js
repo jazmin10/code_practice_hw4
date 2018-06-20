@@ -286,12 +286,21 @@ $(document).ready(function() {
 	// If an user won a round...
 	function roundWon() {
 
-		// Empty the defender section to make way for the new defender
+		// Empty the defender section
 		$("#defender-section").empty();
 
-		// Let the user know they won this round
-		$("#game-results").append("<p>You have defeated " + currentEnemy.name + 
-			" , you can choose to fight another enemy");
+		// If you have defeated all enemies, then you won the game
+		if (enemies.length === 0) {
+			$("#game-results").append("<p>You won!!! GAME OVER!!!");
+		}
+		// Otherwise...
+		else {
+
+			// Let the user know they won this round
+			$("#game-results").append("<p>You have defeated " + currentEnemy.name + 
+				" , you can choose to fight another enemy");
+
+		}
 	}
 
 // ======== MAIN PROCESSES ========
