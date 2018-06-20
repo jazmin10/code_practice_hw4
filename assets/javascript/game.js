@@ -68,6 +68,8 @@ $(document).ready(function() {
 		$("#your-character-section").empty();
 		$("#enemies-available-section").empty();
 		$("#your-character-section").empty();
+		$("#defender-section").empty();
+		$("#game-results").empty();
 
 		// Reset variables
 		enemies = [];
@@ -79,7 +81,7 @@ $(document).ready(function() {
 		defenderAttack = 0;
 		attackAbility = false;
 		yourCharacterPicked = false;
-		enemyPicked = false;
+		defenderPicked = false;
 	}
 
 	// When you pick a character from the list of characters...
@@ -256,7 +258,6 @@ $(document).ready(function() {
 		}
 		else if (defenderHp <= 0) {
 			defenderPicked = false;
-			console.log("you won this round!");
 			roundWon();
 		}
 		else {
@@ -266,8 +267,8 @@ $(document).ready(function() {
 			$("#game-results").append(currentEnemy.name + " attacked you back for " + defenderAttack + " damage.");
 
 			// Update yourCharacter's and defender's hp
-			displayYourCharacter(yourCharacter);
-			displayDefender(currentEnemy);
+			displayYourCharacter();
+			displayDefender();
 		}
 	}
 
@@ -275,8 +276,8 @@ $(document).ready(function() {
 	function displayGameLost() {
 
 			// Update yourCharacter's and defender's hp
-			displayYourCharacter(yourCharacter);
-			displayDefender(currentEnemy);
+			displayYourCharacter();
+			displayDefender();
 
 			// Display Game Over to user
 			$("#game-results").append("<p>You have been defeated...GAME OVER!!!");
@@ -292,6 +293,7 @@ $(document).ready(function() {
 		// If you have defeated all enemies, then you won the game
 		if (enemies.length === 0) {
 			$("#game-results").append("<p>You won!!! GAME OVER!!!");
+			$("#game-results").append("<button id='restart'>Restart</button>");
 		}
 		// Otherwise...
 		else {
@@ -309,15 +311,20 @@ $(document).ready(function() {
 	initializeGame();
 
 	// When a character is picked...
-	$(".characters").click(pickYourCharacter);
+	$("#list-of-characters").on("click", ".characters", pickYourCharacter);
 
 	// When a defender is chosen...
-	// We use .on() method instead of .click() because enemies are being dynamically
-	// created. The .click() method won't work when only using $(".enemies")
 	$("#enemies-available-section").on("click", ".enemies", pickDefender);
 
 	// When the attack button is clicked...
 	$("#attack-button").click(gameRound);
+
+	$("#game-results").on("click", "#restart", initializeGame);
+
+		// We sometimes use .on() method instead of .click() because 
+		// the elements are dynamically being created. Therefore, in order
+		// to actually register click events we use .on() since .click() won't
+		// actually register click events with these dynamically created elements
 
 
 });
