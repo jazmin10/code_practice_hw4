@@ -103,7 +103,7 @@ $(document).ready(function() {
 		yourCharacterPicked = true;
 
 		// Display the chosen character
-		displayYourCharacter(yourCharacter);
+		displayYourCharacter();
 
 		// Empty out list of characters
 		$("#list-of-characters").empty();
@@ -114,11 +114,11 @@ $(document).ready(function() {
 		enemies = characters;
 
 		// display the rest of characters as enemies
-		displayEnemies(enemies);
+		displayEnemies();
 		
 	}
 
-	function displayYourCharacter(characterChosen) {
+	function displayYourCharacter() {
 		$("#your-character-section").empty();
 
 		var yourCharacterDiv = $("<div>");
@@ -126,8 +126,8 @@ $(document).ready(function() {
 		yourCharacterDiv.addClass("characters");
 
 		// Append character's name, img, and hp to the character's div
-		yourCharacterDiv.append("<p>" + characterChosen.name + "</p>");
-		yourCharacterDiv.append("<img src=" + characterChosen.src + " alt='character'>");
+		yourCharacterDiv.append("<p>" + yourCharacter.name + "</p>");
+		yourCharacterDiv.append("<img src=" + yourCharacter.src + " alt='character'>");
 		yourCharacterDiv.append("<p>" + yourCharacterHp + "</p>");
 
 		// Add the character's div to the your-character-section
@@ -136,12 +136,12 @@ $(document).ready(function() {
 	}
 
 	// Display the list of available enemies
-	function displayEnemies(listEnemies) {
+	function displayEnemies() {
 
 		var enemiesCounter = 0;
 
 		// Loop through the list of available enemies...
-		listEnemies.forEach(function(enemy) {
+		enemies.forEach(function(enemy) {
 
 			// Create a div
 			var enemiesDiv = $("<div>");
@@ -180,18 +180,18 @@ $(document).ready(function() {
 		defenderPicked = true;
 
 		// Display the defender
-		displayDefender(currentEnemy);
+		displayDefender();
 
 		// Remove defender from list of available enemies
 		enemies.splice(enemyIndex, 1);
 
 		// Display new list of available enemies
 		$("#enemies-available-section").empty();
-		displayEnemies(enemies);
+		displayEnemies();
 	}
 
 	// Display the defender picked
-	function displayDefender(defender) {
+	function displayDefender() {
 
 		$("#defender-section").empty();
 
@@ -202,8 +202,8 @@ $(document).ready(function() {
 		enemyDiv.addClass("defender");
 
 		// Append defender's name, img, and hp
-		enemyDiv.append("<p>" + defender.name + "</p>");
-		enemyDiv.append("<img src=" + defender.src + " alt='character'>");
+		enemyDiv.append("<p>" + currentEnemy.name + "</p>");
+		enemyDiv.append("<img src=" + currentEnemy.src + " alt='character'>");
 		enemyDiv.append("<p>" + defenderHp + "</p>");
 
 		// Add defender to the defender-section
