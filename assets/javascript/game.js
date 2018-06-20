@@ -239,27 +239,39 @@ $(document).ready(function() {
 		// Empty the #game-results div 
 		$("#game-results").empty();
 
+		// If yourCharacter and defender both reach 0 or negative numbers
+		// at the same time, then...
 		if (yourCharacterHp <= 0 && defenderHp <= 0) {
 			
+			// Check if yourCharacter lost
 			if (yourCharacterHp < defenderHp) {
+
+				// Disable the attack button and let user know they lost
 				attackAbility = true;
 				displayGameLost();
 			}
-
+			// Otherwise, yourCharacter won the round
 			else {
+
+				// Enable the pick defender ability and let user know they won the round
 				defenderPicked = false;
-				console.log("I am here, you won this round!");
 				roundWon();
 			}
 		}
+		// If your character is the first to reach 0, then...
 		else if (yourCharacterHp <= 0) {
+
+			// Disable the attack button and let user know they lost
 			attackAbility = true;
 			displayGameLost();
 		}
+		// If the defender is the first to reach 0, then...
 		else if (defenderHp <= 0) {
+			// Enable the pick defender ability and let user know they won the round
 			defenderPicked = false;
 			roundWon();
 		}
+		// If no one has lost, then show new attack results
 		else {
 
 			// Show attack power in #game-results div
@@ -310,6 +322,11 @@ $(document).ready(function() {
 	// Initialize game
 	initializeGame();
 
+	// We sometimes use .on() method instead of .click() because 
+	// the elements are dynamically being created. Therefore, in order
+	// to actually register click events we use .on() since .click() won't
+	// actually register click events with these dynamically created elements
+
 	// When a character is picked...
 	$("#list-of-characters").on("click", ".characters", pickYourCharacter);
 
@@ -320,12 +337,6 @@ $(document).ready(function() {
 	$("#attack-button").click(gameRound);
 
 	$("#game-results").on("click", "#restart", initializeGame);
-
-		// We sometimes use .on() method instead of .click() because 
-		// the elements are dynamically being created. Therefore, in order
-		// to actually register click events we use .on() since .click() won't
-		// actually register click events with these dynamically created elements
-
 
 });
 
