@@ -9,7 +9,7 @@ $(document).ready(function() {
 	var yourCharacterAttack = 0;
 	var defenderHp = 0;
 	var defenderAttack = 0;
-	// var attackAbility = false;
+	var attackAbility = false;
 	var yourCharacterPicked = false;
 	var defenderPicked = false;
 
@@ -212,8 +212,8 @@ $(document).ready(function() {
 	// Execute a game's round
 	function gameRound() {
 
-		// If defender is not picked, then do nothing...
-		if (!defenderPicked) {
+		// If defender is not picked OR if the game is over, then do nothing...
+		if (!defenderPicked || attackAbility) {
 			return;
 		}
 
@@ -232,20 +232,51 @@ $(document).ready(function() {
 	// After each round, check if the user won or lost
 	function checkResults() {
 
-		if (yourCharacterHp < 0) {
-			console.log("game over");
-		}
-
 		// Empty the #game-results div 
 		$("#game-results").empty();
 
-		// Show attack power in #game-results div
-		$("#game-results").append("<p>You attacked " + currentEnemy.name + " for " + yourCharacterAttack + " points.");
-		$("#game-results").append(currentEnemy.name + " attacked you back for " + defenderAttack + " damage.");
+		if (yourCharacterHp <= 0 && defenderHp <= 0) {
+			
+			if (yourCharacterHp < defenderHp) {
+				attackAbility = true;
+				console.log("game over");
+				displayGameOver();
+			}
 
-		// Update yourCharacter's and defender's hp
-		displayYourCharacter(yourCharacter);
-		displayDefender(currentEnemy);
+			else {
+				console.log("you won this round!");
+			}
+		}
+		else if (yourCharacterHp <= 0) {
+			attackAbility = true;
+			console.log("game over");
+			displayGameOver();
+		}
+		else if (defenderHp <= 0) {
+			console.log("you won this round!");
+		}
+		else {
+
+			// Show attack power in #game-results div
+			$("#game-results").append("<p>You attacked " + currentEnemy.name + " for " + yourCharacterAttack + " points.");
+			$("#game-results").append(currentEnemy.name + " attacked you back for " + defenderAttack + " damage.");
+
+			// Update yourCharacter's and defender's hp
+			displayYourCharacter(yourCharacter);
+			displayDefender(currentEnemy);
+		}
+	}
+
+	function displayGameOver() {
+
+			// Update yourCharacter's and defender's hp
+			displayYourCharacter(yourCharacter);
+			displayDefender(currentEnemy);
+
+			// Display Game Over to user
+			$("#game-results").append("<p>You have been defeated...GAME OVER!!!");
+
+			$("#game-results").append("<button id='restart'>Restart</button>");
 	}
 
 // ======== MAIN PROCESSES ========
